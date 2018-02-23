@@ -1,19 +1,337 @@
-环境：
-1.正常运行时出现这个问题
+area type: 0-panic 1-reboot 2-emerge 3-intermit 4-oom 5-oops/die 6-rlock 7-message 8-console 
+
+
+---------------area type:5, record num:1, unit_size:32 ------------
+###num:0, record len:14877
+---------KBOX_START----------
+die time:20180203023005-bd583
+die info:invalid opcode:0000
+Process: dockyard (pid: 28619, threadinfo: ffff8800bb60c000, task: ffff8807e481ae00) on CPU: 2
+Pid: 28619, comm: dockyard
+RIP: 0010:[<ffffffff811c4ac3>]  [<ffffffff811c4ac3>] kfree+0x133/0x140
+RSP: 0018:ffff88083ec839f8 EFLAGS: 00010246
+RAX: 002fffff00000000 RBX: ffff880179cf2400 RCX: 0000000000000010
+RDX: 002fffff00000000 RSI: ffff88083ec99cd0 RDI: ffff880179cf2400
+RBP: ffff88083ec83a10 R08: ffffea0010dcb860 R09: ffff88083eb82ba0
+R10: ffffea0005e73c80 R11: ffffffffa00483b5 R12: 0000000000000001
+R13: ffffffff81525b0e R14: ffff88010a1f24f8 R15: ffff880809ec0000
+FS: 00007f15fb3ff700(0000) GS:ffff88083ec80000(0000) knlGS:0000000000000000
+CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000000c422daa2d8 CR3: 00000007e5df1000 CR4: 00000000003407e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <IRQ>  [<ffffffff81525b0e>] skb_free_head+0x1e/0x80
+ [<ffffffff81525c46>] skb_release_data+0xd6/0x110
+ [<ffffffff81525ca4>] skb_release_all+0x24/0x30
+ [<ffffffff81525eec>] consume_skb+0x2c/0x80
+ [<ffffffff81535b8d>] __dev_kfree_skb_any+0x3d/0x50
+ [<ffffffffa008384b>] free_old_xmit_skbs.isra.31+0x6b/0xc0 [virtio_net]
+ [<ffffffffa00838ff>] start_xmit+0x5f/0x4f0 [virtio_net]
+ [<ffffffff815380c1>] dev_hard_start_xmit+0x171/0x3b0
+ [<ffffffff815588b4>] sch_direct_xmit+0x104/0x200
+ [<ffffffff81538536>] dev_queue_xmit+0x236/0x570
+ [<ffffffff81575e57>] ip_finish_output+0x567/0x7f0
+ [<ffffffff81576e0f>] ip_output+0x6f/0xe0
+ [<ffffffff815758f0>] ? ip_fragment+0x8b0/0x8b0
+ [<ffffffff815727f6>] ip_forward_finish+0x66/0x80
+ [<ffffffff81572b87>] ip_forward+0x377/0x490
+ [<ffffffff81572790>] ? ip_frag_mem+0x40/0x40
+ [<ffffffff815708bd>] ip_rcv_finish+0x7d/0x350
+ [<ffffffff81571256>] ip_rcv+0x2b6/0x410
+ [<ffffffff810c3802>] ? task_tick_fair+0x1a2/0x680
+ [<ffffffff81570840>] ? inet_del_offload+0x40/0x40
+ [<ffffffff815362d2>] __netif_receive_skb_core+0x582/0x7d0
+ [<ffffffff81536538>] __netif_receive_skb+0x18/0x60
+ [<ffffffff8153720e>] process_backlog+0xae/0x180
+ [<ffffffff815369f2>] net_rx_action+0x152/0x240
+ [<ffffffff8108509f>] __do_softirq+0xef/0x280
+ [<ffffffff81653e1c>] call_softirq+0x1c/0x30
+ <EOI>  [<ffffffff8101713d>] do_softirq+0x5d/0xb0
+ [<ffffffff810842f4>] local_bh_enable+0x94/0xa0
+ [<ffffffff81575afa>] ip_finish_output+0x20a/0x7f0
+ [<ffffffff81576e0f>] ip_output+0x6f/0xe0
+ [<ffffffff815758f0>] ? ip_fragment+0x8b0/0x8b0
+ [<ffffffff81574a51>] ip_local_out_sk+0x31/0x40
+ [<ffffffff81574db1>] ip_queue_xmit+0x141/0x3d0
+ [<ffffffff8158ea66>] tcp_transmit_skb+0x516/0xa60
+ [<ffffffff8158f234>] tcp_write_xmit+0x284/0xce0
+ [<ffffffff8158ff0e>] __tcp_push_pending_frames+0x2e/0xc0
+ [<ffffffff815917e2>] tcp_send_fin+0x62/0x190
+ [<ffffffff81582c30>] tcp_close+0x390/0x3e0
+ [<ffffffff815ab8b7>] inet_release+0x77/0x80
+ [<ffffffff8151ba2f>] sock_release+0x1f/0x80
+ [<ffffffff8151baa2>] sock_close+0x12/0x20
+ [<ffffffff811e49c9>] __fput+0xe9/0x260
+ [<ffffffff811e4c7e>] ____fput+0xe/0x10
+ [<ffffffff810a2997>] task_work_run+0xa7/0xe0
+ [<ffffffff81014b12>] do_notify_resume+0x92/0xb0
+ [<ffffffff8165273d>] int_signal+0x12/0x17
+stack:
+ ffff880179cf24c0 0000000000000001 ffff8801783ff200 ffff88083ec83a20
+ 。。。。。
+ 0000000000000033 0000000000000246 000000c42aa4faa0 000000000000002b
+stack end
+Code: 49 8b 02 31 f6 f6 c4 40 74 04 41 8b 72 68 4c 89 d7 e8 12 0e fb ff eb 8f 4c 8b 50 30 48 8b 10 80 e6 80 4c 0f 44 d0 e9 32 ff ff ff <0f> 0b 66 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 55 48 89 
+
+mod_name                mod_start             core_size   
+binfmt_misc             0xffffffffa059f000    0x443c        
+xt_physdev              0xffffffffa059a000    0x312b        
+xt_statistic            0xffffffffa055b000    0x3139        
+ipt_REJECT              0xffffffffa0551000    0x30fd        
+macvlan                 0xffffffffa056a000    0x4b21        
+ip_set_hash_ipport      0xffffffffa0592000    0x6ad7        
+vport_vxlan             0xffffffffa054c000    0x3169        
+xt_nat                  0xffffffffa0547000    0x3189        
+xt_recent               0xffffffffa058c000    0x486e        
+ip_option               0xffffffffa0587000    0x31f7        
+ct_limit                0xffffffffa0582000    0x33a6        
+bum_extract             0xffffffffa057c000    0x426d        
+policy                  0xffffffffa0576000    0x4192        
+bum                     0xffffffffa0570000    0x427e        
+ip_set                  0xffffffffa0560000    0x8f31        
+nfnetlink               0xffffffffa0556000    0x390e        
+openvswitch             0xffffffffa0509000    0x3ce9a       
+nf_defrag_ipv6          0xffffffffa04fb000    0x87d0        
+gre                     0xffffffffa04f6000    0x35e4        
+cls_u32                 0xffffffffa04f0000    0x42f1        
+sch_prio                0xffffffffa04eb000    0x3360        
+xt_comment              0xffffffffa04e1000    0x30d8        
+xt_mark                 0xffffffffa04e6000    0x3113        
+vxlan                   0xffffffffa04d5000    0xa10c        
+ip6_udp_tunnel          0xffffffffa04d0000    0x31d3        
+udp_tunnel              0xffffffffa04cb000    0x3383        
+ipt_MASQUERADE          0xffffffffa04b1000    0x3186        
+nf_nat_masquerade_ipv4  0xffffffffa04c6000    0x3464        
+iptable_nat             0xffffffffa04c1000    0x324b        
+nf_conntrack_ipv4       0xffffffffa04ac000    0x3a0e        
+nf_defrag_ipv4          0xffffffffa048b000    0x31b9        
+nf_nat_ipv4             0xffffffffa0379000    0x3723        
+xt_addrtype             0xffffffffa0349000    0x315b        
+iptable_filter          0xffffffffa0249000    0x320a        
+xt_conntrack            0xffffffffa0361000    0x31d8        
+nf_nat                  0xffffffffa04b9000    0x6622        
+nf_conntrack            0xffffffffa0491000    0x19d38       
+bridge                  0xffffffffa0468000    0x1d331       
+stp                     0xffffffffa02dc000    0x32b0        
+llc                     0xffffffffa0179000    0x38d8        
+xfs                     0xffffffffa037f000    0xe7a35       
+dm_thin_pool            0xffffffffa0368000    0xffd1        
+dm_persistent_data      0xffffffffa034f000    0x10690       
+dm_bio_prison           0xffffffffa0230000    0x3e23        
+dm_bufio                0xffffffffa0341000    0x6d6b        
+libcrc32c               0xffffffffa018d000    0x3164        
+loop                    0xffffffffa0331000    0x6dd9        
+kboxdriver              0xffffffffa033a000    0x5982        
+kbox                    0xffffffffa02f0000    0x3fb06       
+signo_catch             0xffffffffa011b000    0x3103        
+ppdev                   0xffffffffa02ea000    0x4507        
+parport_pc              0xffffffffa02e2000    0x6e05        
+pcspkr                  0xffffffffa0197000    0x31ae        
+virtio_balloon          0xffffffffa0116000    0x358d        
+parport                 0xffffffffa02d0000    0xa56c        
+virtio_console          0xffffffffa0241000    0x6dd2        
+cirrus                  0xffffffffa024f000    0x6076        
+syscopyarea             0xffffffffa0151000    0x30f1        
+sysfillrect             0xffffffffa0121000    0x319d        
+sysimgblt               0xffffffffa010c000    0x3160        
+ttm                     0xffffffffa02b8000    0x16d30       
+drm_kms_helper          0xffffffffa0131000    0x1e7fc       
+drm                     0xffffffffa0261000    0x554cc       
+i2c_piix4               0xffffffffa025a000    0x565a        
+i2c_core                0xffffffffa0236000    0x9e86        
+ip_tables               0xffffffffa001f000    0x6a1b        
+ext4                    0xffffffffa01a1000    0x8d632       
+jbd2                    0xffffffffa00e7000    0x1a355       
+mbcache                 0xffffffffa00a6000    0x3a6e        
+ata_generic             0xffffffffa00a1000    0x326e        
+pata_acpi               0xffffffffa0094000    0x32ee        
+virtio_blk              0xffffffffa017e000    0x46ec        
+virtio_net              0xffffffffa0083000    0x6d1d        
+crct10dif_pclmul        0xffffffffa019c000    0x37d1        
+crct10dif_common        0xffffffffa0192000    0x3133        
+crc32_pclmul            0xffffffffa0174000    0x3339        
+crc32c_intel            0xffffffffa0186000    0x563f        
+ghash_clmulni_intel     0xffffffffa008f000    0x33cb        
+ata_piix                0xffffffffa0156000    0x88de        
+aesni_intel             0xffffffffa0161000    0x110fc       
+lrw                     0xffffffffa0111000    0x33e6        
+gf128mul                0xffffffffa0107000    0x3a67        
+glue_helper             0xffffffffa007e000    0x36a6        
+virtio_pci              0xffffffffa012a000    0x5981        
+ablk_helper             0xffffffffa001a000    0x351d        
+libata                  0xffffffffa00ac000    0x3569b       
+cryptd                  0xffffffffa009b000    0x4f87        
+virtio_ring             0xffffffffa0048000    0x5414        
+serio_raw               0xffffffffa0079000    0x3496        
+virtio                  0xffffffffa0071000    0x3aa0        
+dm_mirror               0xffffffffa0066000    0x5677        
+dm_region_hash          0xffffffffa005c000    0x517e        
+dm_log                  0xffffffffa0052000    0x47eb        
+dm_mod                  0xffffffffa0028000    0x1bb8b       
+scsi_transport_iscsi    0xffffffffa0000000    0x18645       
+action after die is:0
+---------KBOX_END------------
 
 
 
-分析：
-1.可能是反复进入ip_handle_martian_source导致的
-	ip_handle_martian_source中有skb_mac_header(skb)的动作，考虑可能会影响socket buffer
 
-	
-方案：
-1.创建相应的虚拟机
-2.2张网卡，配置两个网桥
-3.触发martian source
-4.观察是否会产生panic
+---------------area type:7, record num:1, unit_size:64 ------------
+###num:0, record len:65566
+die time:20180203023005-bd583
+..U......
+[779365.390775] IPv4: martian source 172.16.3.31 from 172.16.3.13, on dev veth_59c4ef61
+[779365.390776] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 03 0d 08 06        .......U......
+[779377.246709] net_ratelimit: 44 callbacks suppressed
+[779377.246713] IPv4: martian source 172.16.4.28 from 172.16.4.9, on dev veth_09e43d58
+[779377.246716] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 09 08 06        .......U......
+[779377.246718] IPv4: martian source 172.16.4.28 from 172.16.4.9, on dev veth_12f696df
+[779377.246719] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 09 08 06        .......U......
+[779377.246721] IPv4: martian source 172.16.4.28 from 172.16.4.9, on dev veth_95dc8186
+[779377.246722] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 09 08 06        .......U......
+[779377.246724] IPv4: martian source 172.16.4.28 from 172.16.4.9, on dev veth_3d0b1246
+[779377.246725] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 09 08 06        .......U......
+[779377.246727] IPv4: martian source 172.16.4.28 from 172.16.4.9, on dev veth_75cbe95f
+[779377.246728] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 09 08 06        .......U......
+[779377.246730] IPv4: martian source 172.16.4.28 from 172.16.4.9, on dev veth_f897a075
+[779377.246731] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 09 08 06        .......U......
+[779377.246734] IPv4: martian source 172.16.4.28 from 172.16.4.9, on dev veth_f94bca77
+[779377.246734] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 09 08 06        .......U......
+[779377.246736] IPv4: martian source 172.16.4.28 from 172.16.4.9, on dev veth_df8c17b7
+[779377.246737] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 09 08 06        .......U......
+[779377.246740] IPv4: martian source 172.16.4.28 from 172.16.4.9, on dev veth_3a555921
+[779377.246750] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 09 08 06        .......U......
 
+
+[779403.628323] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 1d 08 06        .......U......
+[779403.628325] IPv4: martian source 172.16.4.28 from 172.16.4.29, on dev veth_df8c17b7
+[779403.628326] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 1d 08 06        .......U......
+[779403.628328] IPv4: martian source 172.16.4.28 from 172.16.4.29, on dev veth_3a555921
+[779403.628329] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 1d 08 06        .......U......
+[779403.628331] IPv4: martian source 172.16.4.28 from 172.16.4.29, on dev veth_59c4ef61
+[779403.628332] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 1d 08 06        .......U......
+[779413. 10198] net_ratelimit: 31 callbacks suppressed
+[779413. 10202] IPv4: martian source 172.16.4.28 from 172.16.4.30, on dev veth_09e43d58
+[779413. 10205] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 1e 08 06        .......U......
+[779413. 10207] IPv4: martian source 172.16.4.28 from 172.16.4.30, on dev veth_12f696df
+[779413. 10208] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 1e 08 06        .......U......
+[779413. 10211] IPv4: martian source 172.16.4.28 from 172.16.4.30, on dev veth_95dc8186
+[779413. 10211] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 1e 08 06        .......U......
+[779413. 10213] IPv4: martian source 172.16.4.28 from 172.16.4.30, on dev veth_3d0b1246
+[779413. 10214] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 1e 08 06        .......U......
+[779413. 10216] IPv4: martian source 172.16.4.28 from 172.16.4.30, on dev veth_75cbe95f
+[779413. 10217] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 1e 08 06        .......U......
+[779413. 10220] IPv4: martian source 172.16.4.28 from 172.16.4.30, on dev veth_f897a075
+[779413. 10220] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 1e 08 06        .......U......
+[779413. 10223] IPv4: martian source 172.16.4.28 from 172.16.4.30, on dev veth_f94bca77
+[779413. 10224] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 1e 08 06        .......U......
+[779413. 10226] IPv4: martian source 172.16.4.28 from 172.16.4.30, on dev veth_df8c17b7
+[779413. 10227] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 1e 08 06        .......U......
+[779413. 10229] IPv4: martian source 172.16.4.28 from 172.16.4.30, on dev veth_3a555921
+[779413. 10230] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 1e 08 06        .......U......
+[779413. 10232] IPv4: martian source 172.16.4.28 from 172.16.4.30, on dev veth_59c4ef61
+[779413. 10233] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 1e 08 06        .......U......
+[779419.983054] net_ratelimit: 4 callbacks suppressed
+[779419.983059] IPv4: martian source 172.16.4.28 from 172.16.4.13, on dev veth_09e43d58
+[779419.983061] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 0d 08 06        .......U......
+[779419.983063] IPv4: martian source 172.16.4.28 from 172.16.4.13, on dev veth_12f696df
+[779419.983065] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 0d 08 06        .......U......
+[779419.983067] IPv4: martian source 172.16.4.28 from 172.16.4.13, on dev veth_95dc8186
+[779419.983068] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 0d 08 06        .......U......
+[779419.983070] IPv4: martian source 172.16.4.28 from 172.16.4.13, on dev veth_3d0b1246
+[779419.983071] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 0d 08 06        .......U......
+[779419.983073] IPv4: martian source 172.16.4.28 from 172.16.4.13, on dev veth_75cbe95f
+[779419.983074] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 0d 08 06        .......U......
+[779419.983076] IPv4: martian source 172.16.4.28 from 172.16.4.13, on dev veth_f897a075
+[779419.983077] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 0d 08 06        .......U......
+[779419.983079] IPv4: martian source 172.16.4.28 from 172.16.4.13, on dev veth_f94bca77
+[779419.983080] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 0d 08 06        .......U......
+[779419.983082] IPv4: martian source 172.16.4.28 from 172.16.4.13, on dev veth_df8c17b7
+[779419.983083] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 0d 08 06        .......U......
+[779419.983086] IPv4: martian source 172.16.4.28 from 172.16.4.13, on dev veth_3a555921
+[779419.983086] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 0d 08 06        .......U......
+[779419.983089] IPv4: martian source 172.16.4.28 from 172.16.4.13, on dev veth_59c4ef61
+[779419.983090] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 0d 08 06        .......U......
+[779430.687910] net_ratelimit: 144 callbacks suppressed
+[779430.687914] IPv4: martian source 172.16.4.29 from 172.16.4.8, on dev veth_09e43d58
+[779430.687917] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 08 08 06        .......U......
+[779430.687919] IPv4: martian source 172.16.4.29 from 172.16.4.8, on dev veth_12f696df
+[779430.687920] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 08 08 06        .......U......
+[779430.687922] IPv4: martian source 172.16.4.29 from 172.16.4.8, on dev veth_95dc8186
+[779430.687923] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 08 08 06        .......U......
+[779430.687925] IPv4: martian source 172.16.4.29 from 172.16.4.8, on dev veth_3d0b1246
+[779430.687926] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 08 08 06        .......U......
+[779430.687928] IPv4: martian source 172.16.4.29 from 172.16.4.8, on dev veth_75cbe95f
+[779430.687929] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 08 08 06        .......U......
+[779430.687932] IPv4: martian source 172.16.4.29 from 172.16.4.8, on dev veth_f897a075
+[779430.687933] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 08 08 06        .......U......
+[779430.687935] IPv4: martian source 172.16.4.29 from 172.16.4.8, on dev veth_f94bca77
+[779430.687936] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 08 08 06        .......U......
+[779430.687938] IPv4: martian source 172.16.4.29 from 172.16.4.8, on dev veth_df8c17b7
+[779430.687939] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 08 08 06        .......U......
+[779430.687941] IPv4: martian source 172.16.4.29 from 172.16.4.8, on dev veth_3a555921
+[779430.687942] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 08 08 06        .......U......
+[779430.687944] IPv4: martian source 172.16.4.29 from 172.16.4.8, on dev veth_59c4ef61
+[779430.687945] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 08 08 06        .......U......
+[779438.945816] net_ratelimit: 32 callbacks suppressed
+[779438.945820] IPv4: martian source 172.16.4.28 from 172.16.4.35, on dev veth_09e43d58
+[779438.945822] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 23 08 06        .......U...#..
+[779438.945825] IPv4: martian source 172.16.4.28 from 172.16.4.35, on dev veth_12f696df
+[779438.945826] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 23 08 06        .......U...#..
+[779438.945828] IPv4: martian source 172.16.4.28 from 172.16.4.35, on dev veth_95dc8186
+[779438.945829] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 23 08 06        .......U...#..
+[779438.945831] IPv4: martian source 172.16.4.28 from 172.16.4.35, on dev veth_3d0b1246
+[779438.945832] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 23 08 06        .......U...#..
+[779438.945835] IPv4: martian source 172.16.4.28 from 172.16.4.35, on dev veth_75cbe95f
+[779438.945836] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 23 08 06        .......U...#..
+[779438.945838] IPv4: martian source 172.16.4.28 from 172.16.4.35, on dev veth_f897a075
+[779438.945839] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 23 08 06        .......U...#..
+[779438.945841] IPv4: martian source 172.16.4.28 from 172.16.4.35, on dev veth_f94bca77
+[779438.945841] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 23 08 06        .......U...#..
+[779438.945844] IPv4: martian source 172.16.4.28 from 172.16.4.35, on dev veth_df8c17b7
+[779438.945845] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 23 08 06        .......U...#..
+[779438.945847] IPv4: martian source 172.16.4.28 from 172.16.4.35, on dev veth_3a555921
+[779438.945848] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 23 08 06        .......U...#..
+[779438.945850] IPv4: martian source 172.16.4.28 from 172.16.4.35, on dev veth_59c4ef61
+[779438.945851] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 23 08 06        .......U...#..
+[779444.881244] net_ratelimit: 32 callbacks suppressed
+[779444.881249] IPv4: martian source 172.16.4.28 from 172.16.4.34, on dev veth_09e43d58
+[779444.881251] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 04 22 08 06        .......U..."..
+[779444.881254] IPv4: martian source 172.16.4.28 from 172.16.4.34, on dev veth_12f696df
+。。。。
+[779677.197647] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 03 26 08 06        .......U...&..
+[779677.197649] IPv4: martian source 172.16.3.24 from 172.16.3.38, on dev veth_3a555921
+[779677.197650] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 03 26 08 06        .......U...&..
+[779677.197652] IPv4: martian source 172.16.3.24 from 172.16.3.38, on dev veth_59c4ef61
+[779677.197653] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 03 26 08 06        .......U...&..
+[779682.611401] SELinux: initialized (dev tmpfs, type tmpfs), uses transition SIDs
+[779684.995591] net_ratelimit: 32 callbacks suppressed
+[779684.995595] IPv4: martian source 172.16.3.24 from 172.16.0.1, on dev veth_09e43d58
+[779684.995597] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 00 01 08 06        .......U......
+[779684.995600] IPv4: martian source 172.16.3.24 from 172.16.0.1, on dev veth_12f696df
+[779684.995601] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 00 01 08 06        .......U......
+[779684.995603] IPv4: martian source 172.16.3.24 from 172.16.0.1, on dev veth_95dc8186
+[779684.995605] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 00 01 08 06        .......U......
+[779684.995607] IPv4: martian source 172.16.3.24 from 172.16.0.1, on dev veth_3d0b1246
+[779684.995608] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 00 01 08 06        .......U......
+[779684.995610] IPv4: martian source 172.16.3.24 from 172.16.0.1, on dev veth_75cbe95f
+[779684.995611] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 00 01 08 06        .......U......
+[779684.995613] IPv4: martian source 172.16.3.24 from 172.16.0.1, on dev veth_f897a075
+[779684.995614] ll header: 00000000: ff ff ff ff ff ff 02 55 ac 10 00 01 08 06        .......U......
+[779684.995616] IPv4: martian sourc
+
+
+
+---------------area type:8, record num:1, unit_size:8 ------------
+###num:0, record len:168
+[779687.257752] kbox catch die event.
+die time:20180203023005-bd583
+[779687.261601] collected_len = 1048576, LOG_BUF_LEN_LOCAL = 1048576
+die time:20180203023005-bd583
+
+
+
+the kbox info end!
 
 参考：
 1.因为Selinux设置问题导致的
