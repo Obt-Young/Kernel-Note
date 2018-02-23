@@ -1,0 +1,32 @@
+环境：
+1.正常运行时出现这个问题
+
+
+
+分析：
+1.可能是反复进入ip_handle_martian_source导致的
+	ip_handle_martian_source中有skb_mac_header(skb)的动作，考虑可能会影响socket buffer
+
+	
+方案：
+1.创建相应的虚拟机
+2.2张网卡，配置两个网桥
+3.触发martian source
+4.观察是否会产生panic
+
+
+参考：
+1.因为Selinux设置问题导致的
+http://blog.51cto.com/loofeer/996789
+
+2.为什么会有大量的martian日志,如何防止输出这些日志
+http://blog.csdn.net/u013501512/article/details/18412041
+
+3.linux kernel的中断子系统之（八）：softirq
+http://www.wowotech.net/irq_subsystem/soft-irq.html/comment-page-2
+
+4.有关struct sk_buff
+http://blog.51cto.com/weiguozhihui/1586777
+
+手记：
+inline函数
